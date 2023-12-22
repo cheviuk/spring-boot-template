@@ -1,0 +1,39 @@
+scalar Long
+
+input IdsOrNamesFilter {
+    ids: [Long!]
+    names: [String!]
+}
+
+type Query {
+    roles(filter: IdsOrNamesFilter!): [Role]
+    users(filter: IdsOrNamesFilter!): [User]
+}
+
+type User {
+    id: Long!
+    username: String!
+    password: String!
+    email: String!
+    expired: Long!
+    locked: Boolean!
+    credentialExpired: Long!
+    enabled: Boolean!
+    role: Role!
+}
+
+type Role {
+    id: Int!
+    name: String!
+    users: [User]
+}
+
+type Mutation {
+    createUser(
+        username: String!,
+        password: String!,
+        email: String!
+    ): User
+
+    deleteUsers(filter: IdsOrNamesFilter): String
+}

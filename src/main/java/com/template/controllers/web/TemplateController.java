@@ -1,6 +1,5 @@
-package com.template.controllers;
+package com.template.controllers.web;
 
-import com.template.config.TemplateSpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,5 +15,11 @@ public class TemplateController {
     String getTemplatePage() {
         log.info("template page exposed");
         return "template";
+    }
+
+    @GetMapping("/secured")
+    String getSecuredPage() {
+        log.info("secured page exposed");
+        return "template_secured";
     }
 }

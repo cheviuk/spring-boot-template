@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  spring-boot-template:
+    container_name: spring-boot-template
+    build:
+      context: .
+    #restart: unless-stopped
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    environment:
+      - SPRING_DATASOURCE_DRIVER=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db/${POSTGRES_DB:-postgresdb}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-postgres}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - SPRING_DATASOURCE_PLATFORM=${SPRING_DATASOURCE_PLATFORM:-postgresql}
+#    healthcheck:
+#      test: ["CMD-SHELL", "curl --fail --silent localhost:8080/healthcheck | grep '\"status\":\"UP\"' || exit 1"]
+#      interval: 20s
+#      retries: 5
+#      timeout: 5s
+#      start_period: 40s
+
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:16
+    restart: always
+    user: ${POSTGRES_USER:-postgres}:${POSTGRES_USER:-postgres}
+    privileged: true
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-postgresdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "$${POSTGRES_DB:-postgresdb}", "-U", "$${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+volumes:
+  postgres-db-data:
+    driver: local

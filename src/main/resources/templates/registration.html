@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2224%22 font-size=%2224%22>🍁</text></svg>">
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        .error {
+            color: red;
+            -webkit-text-stroke: 0.5px black;
+            text-stroke: 0.5px black;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <form id="registrationForm" th:action="@{/registration}" method="post" th:object="${userFormObject}">
+        <table>
+            <tr>
+                <td><label>Username:</label></td>
+                <td><input th:field="*{username}"/></td>
+                <td><p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error">Username Error</p></td>
+            </tr>
+            <tr>
+                <td><label>Email:</label></td>
+                <td><input th:field="*{email}"/></td>
+                <td><p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></p></td>
+            </tr>
+            <tr>
+                <td><label>Password:</label></td>
+                <td><input name="password" th:field="*{password}" type="password" oninput="validatePasswordsMatch()"/></td>
+                <td><p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error">Password Error</p></td>
+            </tr>
+            <tr>
+                <td><label>Confirm password:</label></td>
+                <td><input name="confirmPassword" type="password" oninput="validatePasswordsMatch()"/></td>
+                <td name="passwordsMismatchMessage" hidden><div class="error">Password mismatch error</div></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit"/></td>
+            </tr>
+            <script>
+                var registrationForm = document.getElementById('registrationForm');
+                var password = registrationForm.querySelector('[name="password"]');
+                var confirmPassword = registrationForm.querySelector('[name="confirmPassword"]');
+                var passwordMismatchMessage = registrationForm.querySelector('[name="passwordsMismatchMessage"]');
+                var submitButton = registrationForm.querySelector('[type="submit"]');
+                function validatePasswordsMatch() {
+                    if (password.value === confirmPassword.value) {
+                        passwordMismatchMessage.setAttribute('hidden', '');
+                        submitButton.removeAttribute('disabled');
+                    } else {
+                        passwordMismatchMessage.removeAttribute('hidden');
+                        submitButton.setAttribute('disabled', '');
+                    }
+                }
+
+            </script>
+        </table>
+    </form>
+</div>
+</body>
+</html>

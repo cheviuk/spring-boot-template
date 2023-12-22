@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2224%22 font-size=%2224%22>🍁</text></svg>">
+    <meta charset="UTF-8">
+    <title>Log In</title>
+</head>
+<body>
+<div th:if="${error}" th:text="${error}" th:style="color: red;"></div>
+<div th:if="${logout}" th:text="You have been logged out."></div>
+<form th:action="@{/login}" method="post">
+    <table>
+        <tr>
+            <td><label>Login:</label></td>
+            <td><input name="username" type="text"/></td>
+        </tr>
+        <tr>
+            <td><label>Password:</label></td>
+            <td><input name="password" type="password"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Log In"/></td>
+        </tr>
+    </table>
+</form>
+<a th:href="@{/registration}">Registration</a>
+<p th:text="${test}"></p>
+</body>
+</html>

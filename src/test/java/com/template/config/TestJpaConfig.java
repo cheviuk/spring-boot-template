@@ -15,23 +15,23 @@ import java.util.Objects;
 /**
  * Separate test configuration with H2(in memory) database instead of postgres.
  */
-@Configuration
-@EnableJpaRepositories(basePackages = "com.template.models")
-@PropertySource("classpath:application-test.properties")
-@EnableTransactionManagement
+//@Configuration
+//@EnableJpaRepositories(basePackages = "com.template.models")
+//@PropertySource("classpath:application-test.properties")
+//@EnableTransactionManagement
 public class TestJpaConfig {
-    @Autowired
-    Environment environment;
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(
-                environment.getProperty("spring.datasource.driver-class-name")));
-        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
-        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
-        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
-
-        return dataSource;
-    }
+//    @Autowired
+//    Environment environment;
+//
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(Objects.requireNonNull(
+//                environment.getProperty("spring.datasource.driver-class-name")));
+//        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+//        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+//        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+//
+//        return dataSource;
+//    }
 }

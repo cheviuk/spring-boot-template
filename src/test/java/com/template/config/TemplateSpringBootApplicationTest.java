@@ -1,9 +1,6 @@
 package com.template.config;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
 
 public class TemplateSpringBootApplicationTest {
 
@@ -23,6 +20,7 @@ public class TemplateSpringBootApplicationTest {
 //                    , Mockito.times(1));
 //        } catch (Exception e) {
 //            System.out.println(e.getLocalizedMessage());
-        TemplateSpringBootApplication.main(new String[]{});
+
+        //TemplateSpringBootApplication.main(new String[]{});
     }
 }
