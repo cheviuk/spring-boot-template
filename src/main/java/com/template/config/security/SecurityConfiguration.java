@@ -41,23 +41,18 @@ public class SecurityConfiguration {
         return providerManager;
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(userService);
-//        auth.setPasswordEncoder(SecurityConfiguration.encoder());
-//        return auth;
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/graphql/**"))
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/graphql/**")
+                        .ignoringRequestMatchers("/rest/**"))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/registration").permitAll()
                         .requestMatchers("/healthcheck").permitAll()
                         .requestMatchers("/graphql").permitAll()
                         .requestMatchers("/graphiql").permitAll()
+                        .requestMatchers("/rest/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login").permitAll())
                 .logout(LogoutConfigurer::permitAll)

@@ -16,18 +16,26 @@ import java.util.Arrays;
 @CommonsLog
 public class LogSQLValues {
 
-    @Pointcut("execution(* com.template.repo.UserRepository.*(..))")
+    @Pointcut("execution(* org.springframework.data.repository.Repository+.*(*, ..))")
     void allUserRepositoryMethods() {
 
     }
+
     @After("allUserRepositoryMethods()")
     void logValues(JoinPoint joinPoint) {
-        if (joinPoint.getArgs().length == 0) {
-            return;
-        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Values:\n");
-        Arrays.stream(joinPoint.getArgs()).forEach(param -> stringBuilder.append(param).append("\n"));
+        Arrays.stream(joinPoint.getArgs()).forEach(param -> {
+            String value = "";
+            if (param.getClass().isArray()) {
+                if (param instanceof Object[] objects) {
+                    value = Arrays.toString(objects);
+                }
+            } else {
+                value = param.toString();
+            }
+            stringBuilder.append(value).append("\n");
+        });
         log.info(stringBuilder);
     }
 }
